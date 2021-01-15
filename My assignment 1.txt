@@ -1,0 +1,659 @@
+Day 1 11/01/2020:
+
+Select Clause with Where clause 
+
+1) Display details of jobs where the minimum salary is greater than 10000.
+select * from jobs where min_salary>10000;
+
+
+2) Display the first name and join date of the employees who joined between 2002 and 2005.
+select first_name, hire_date from employees where hire_date between '2002-01-01' and '2005-12-31';
+
+3) Display first name and join date of the employees who is either IT Programmer or Sales Man.
+ select first_name, hire_date from employees where job_id IN ('IT_PROG','SA_MAN');
+
+
+4) Display first name, salary, commission pct, and hire date for employees with salary less than 10000.
+select first_name,salary,commission_pct, hire_date from employees where salary<10000;
+
+
+5) Display job Title, the difference between minimum and maximum salaries for jobs with max salary in the range 10000 to 20000.
+select job_title,max_salary-min_salary as Diff_Salary from jobs where max_salary between 10000 and 20000;
+
+6) Display employees where the first name or last name starts with S.
+select * from employees where first_name like 'S%' or last_name like 'S%';
+
+7) Display details of jobs in the descending order of the title.
+select * from jobs order by job_title desc;
+
+
+8) Display employees who joined in the month of May.
+select * from employees where date_format(hire_date,'%m') = '05';
+
+
+9) Display details of the employees where commission percentage is null and salary in the range 5000 to 10000 and department is 30.
+select * from employees where (commission_pct=null) and (salary between 5000 and 10000) and (department_id=30);
+
+Join //doubts 
+
+1). Display job title, employee ID, number of days between ending date and starting date for all jobs in department 30 from job history.
+select job.job_id,emp.employee_id,job.end_date-job.start_date from job_history job, employees emp where job.department_id=emp.department_id;
+
+2) Display department name and manager first name.
+select dpt.department_name , emp.first_name from departments dpt, employees emp where dpt.manager_id = emp.manager_id;
+
+3) Display department name, manager name, and city.
+ select  dept.department_name ,emp.first_name ,loc.city from departments dept inner join locations loc inner join employees emp on  (dept.location_id = loc.location_id) and ( dept.manager_id = emp.manager_id);
+
+
+4) Display country name, city, and department name.
+select  cnt.country_name ,loc.city, dept.department_name from departments dept, countries cnt, locations loc where  (dept.location_id = loc.location_id) and(cnt.country_id = loc.country_id);
+
+5) Display employee name and country in which he is working.
+select emp.first_name,cnt.country_name from employees emp, countries cnt, locations loc, departments dpt where (dpt.department_id=emp.department_id)and(dpt.location_id=loc.location_id)and(loc.country_id=cnt.country_id);
+
+Functions 
+
+1. Display employees who joined in the month of May.
+select * from employees where date_format(hire_date,'%m') = '05';
+
+
+2. Display first name, salary, and round the salary to thousands.
+select first_name, salary, round(salary,-3) from employees;
+
+3. Display first name and date of first salary of the employees.
+ select first_name,hire_date, date_format(hire_date,'%Y')as Year,date_format(hire_date,'%m')+1 as Month,date_format(hire_date,'%d')+1 as Day from employees;
+
+4. Display first name and experience of the employees.
+select emp.first_name, datediff(job.end_date,job.start_date) from employees emp, job_history job where job.job_id = emp.job_id;
+
+
+5. Display the length of first name for employees where last name contain character ‘b’ after 3rd position.
+select length(first_name)  from employees where last_name like '__b%';
+
+6. Display first name in upper case and email address in lower case for employees where the first name and email address are same irrespective of the case.
+select upper(first_name),lower(email) from employees where lower(first_name)=lower(email);
+
+7. Display employees who joined in the current year.
+select *from employees where hire_date=curdate();//4
+SELECT * FROM EMPLOYEES WHERE date_format(HIRE_DATE,'YYYY')='1995';//4
+SELECT * FROM EMPLOYEES WHERE date_format(HIRE_DATE,'%Y')='1995';//right
+
+
+8. Display the number of days between system date and 1st January 1995.
+ select datediff(curdate(),'1995-01-1');
+
+9. Display how many employees joined in each month of the current year.
+ select count(*),hire_date from employees where date_format(hire_date,'%Y')='1995' group by date_format(hire_date,'%m');
+
+
+MySQL Aggregate function 
+
+1. Display employee ID and the date on which he ended his previous job. //doubt
+select emp.employee_id , job.end_date from employees emp, job_history job where emp.job_id=job.job_id;
+
+2. Display number of employees joined after 15th of the month.
+select count(*) from employees where date_format(hire_date,'%d') > '15';
+
+
+select with Group by 
+
+3. Display the country ID and number of cities we have in the country.//doubt
+select cnt.country_id, count(loc.city) from countries cnt, locations loc group by cnt.country_name;
+
+4. Display average salary of employees in each department who have commission percentage.
+select avg(salary) from employees where commission_pct is not null Group by department_id;
+
+
+5. Display job ID, number of employees, sum of salary, and difference between highest salary and lowest salary of the employees of the job.
+select job_id, count(*),sum(salary),max(salary)-min(salary) from employees group by job_id;
+
+6. Display job ID for jobs with average salary more than 10000.
+select job_id, avg(salary) from employees group by job_id having avg(salary)>10000;
+
+
+7. Display years in which more than 10 employees joined.
+select date_format(hire_date,'%Y') from employees group by date_format(hire_date,'%Y') HAVING COUNT(EMPLOYEE_ID) > 10;
+
+8. Display departments in which more than five employees have commission percentage.
+ select department_name from departments where department_id = ( select department_id from employees where commission_pct != 'null' group by department_id having count(commission_pct)>5);
+
+
+9. Display department name and number of employees in the department.
+select dpt.department_name, count(*) from departments dpt , employees emp where emp.department_id=dpt.department_id group by emp.department_id;
+
+
+10. Display employee ID for employees who did more than one job in the past.
+ select employee_id from job_history group by employee_id having count(*)>1;
+
+12/01/2020
+
+DML Operation 
+
+1. Change salary of employee 115 to 8000 if the existing salary is less than 6000.
+update employees set salary =8000 where salary<6000 and employee_id=115;
+
+2.Insert a new employee into employees with all the required details.
+insert into employees values(888,'Game','Knwo','gamey',3254637,'2018-06-23','PU_CLERK',80000,NULL,114,30);
+
+3.Delete department 20.
+delete from departments where department_id = 30;
+
+4:
+ Change job ID of employee 110 to IT_PROG if the employee belongs to department 10 and the existing job ID does not start with IT.
+update employees set job_id = 'IT_PROG' where department_id=10 and employee_id = 110 and job_id not like 'IT%';
+
+5:
+Insert a row into departments table with manager ID 120 and location ID in any location ID for city Tokyo.
+ insert into departments (department_id,department_name,manager_id,location_id)values(1000,'IT',120,1200);
+
+6:
+Display job title, employee ID, number of days between ending date and starting date for all jobs in department 30 from job history.
+ select j.job_title,jh.employee_id,datediff(jh.end_date,jh.start_date) from job_history jh, jobs j where jh.job_id=j.job_id and jh.department_id = 110;
+
+7:
+Table ---> Customer 
+	custId, firstName,lastName,age,city, mobileNumber, dob
+		Add the Constraints 
+		custId is Primary Key 
+		firstName not null
+		age must be greater than 21
+		mobile must be unique  
+
+create table Customer (custId int, firstName varchar (10) not null, lastname varchar(10) not null, age int check(age>21), city varchar(10), mobilenumber int, dob date ,
+    -> constraint s_custId primary key(custId),
+    -> constraint u_mob unique(mobilenumber));
+
+8:
+Table ----> Branch 
+		branchId, branchName, city 
+		Add the Constraints 
+		branchId is Primary Key 
+		branchName not null
+		city not null
+create table Branch (branchId int, branchName varchar(10) not null, city varchar(10) not null,
+    -> constraint p_id primary key (branchId));
+
+9:
+Table -----> Account 
+		accountNumber, openingBalance, typeOfAccount, status,BankId,CustId
+		Add the Constraints 
+		accountNumber is primary key 
+		openingBalance must be greater than 5000
+		typeOfAccount must be saving/current
+		BankId is foreign key refer to BranchId(Primary key) Branch table 
+		CustId is foreign key refer to Customer(Primary key) Customer table 
+
+create table Accont ( accountNumber int, openingBalance float check(openingBalance>5000), typeOfAccount enum('saving','current'), satatus varchar(10), BankId int, CustId int,
+    -> constraint p_acc primary key(accountNumber),
+    -> constraint f_bid foreign key(BankId) references Branch(branchId),
+    -> constraint f_cid foreign key(CustId) references Customer(custId));
+
+10:
+Table ----> Transaction 
+		transactionId, transactionDate, MediumOfTransaction, TransactionAmount 
+		Add the Constraints 
+		transactionId is primary key 
+create table Transaction( transactionedId int, transactionDate date, MediumOfTransaction float, TransactionAmount float,
+    -> constraint p_tid primary key(transactionedId));
+
+11:
+Loan 
+		LoanId, loanAmount, customerId and bankdId 
+		Add the Constraints 
+		loadId is primary key 
+		loanAmount must be +ve 
+		BankId is foreign key refer to BranchId(Primary key) Branch table
+
+create table Loan ( LoanId int, loanAmount float check(loanAmount > 0) , customerId int,bankdId int,
+    -> constraint p_lid primary key(LoanId),
+    -> constraint foreign key(bankdId) references Branch(branchId));
+
+11:
+ Display details of departments managed by ‘John’.;
+ select  * from departments d, employees e where d.department_id=e.department_id and e.first_name in (select first_name from employees where first_name = 'John');
+
+12:
+Display employees who did not do any job in the past.
+ select * from employees where employee_id not in( select e.employee_id from employees e, job_history j  where e.employee_id = j.employee_id order by e.employee_id);
+
+13:
+Display job title and average salary for employees who did a job in the past.
+ select j.job_title, avg(e.salary) from employees e, jobs j where e.job_id=j.job_id and employee_id in( select e.employee_id from employees e, job_history j  where e.employee_id = j.employee_id order by e.employee_id);
+
+14:Display country name, city, and number of departments where department has more than 5 employees.
+select c.country_name,l.city,count(d.department_id) from countries c, locations l, departments d where
+    -> l.country_id = c.country_id and l.location_id = d.location_id and
+    -> d.department_id in
+    -> ( select department_id from departments group by department_id having count(*)>=1);
+
+15:
+Display details of manager who manages more than 5 employees.
+select * from employees where employee_id in (select employee_id from employees group by manager_id having count(manager_id)>5);
+ select * from employees where employee_id in (select employee_id from employees group by manager_id having count(manager_id)<5);
+
+16:
+Display details of current job for employees who worked as IT Programmers in the past.
+select * from employees where employee_id =(select employee_id from job_history where job_id = 'IT_PROG');
+
+17:
+Display the details of employees drawing the highest salary in the department.
+ select * from employees where employee_id in (select employee_id from employees group by( department_id) having max(salary));
+
+18:
+Display third highest salary of all employees
+
+Day 3 13/Jan/21:
+import java.util.Scanner;
+class Assignment1
+{
+	public static void main(String args[])
+	{
+		System.out.println(" New Exam System ");
+		Scanner sc = new Scanner(System.in);
+		int op;
+		int flagm =0 ,flage=0,flagg=0,temp=0,score=0;
+		String tem;
+		do
+		{
+			System.out.println();
+			System.out.println("1 : Maths ");
+			System.out.println("2 : English ");
+			System.out.println("3 : GK ");
+			System.out.println("Please Enter Your option In the 1,2,3 Only ");
+			op = sc.nextInt();
+
+			switch(op)
+			{
+				case 1:
+						if(flagm==0)
+						{
+							System.out.println("Welcom Math Exam");
+							System.out.println();
+							System.out.println("You hav to answer 3 Qutions compulsary which are follows ");
+							switch(1)
+							{
+								case 1:
+										System.out.println("Q1: 1+1 = ");
+										temp = sc.nextInt();
+										if(temp==2)
+											score += 10;
+								case 2:
+										System.out.println("Q2: 24*2 = ");
+										temp = sc.nextInt();
+										if(temp == 48)
+											score += 10;
+								case 3:
+										System.out.println("Q3: 24/2 =");
+										temp = sc.nextInt();
+										if(temp == 12)
+											score +=10;
+							}
+
+							flagm=1;
+						}
+						else
+						{
+							System.out.println("You Already Taken THe Exam ,Please choose other one");
+						}
+						break;
+				case 2:
+						if(flage==0)
+						{
+							System.out.println("Welcome English Exam");
+							System.out.println();
+							System.out.println("You hav to answer 3 Qutions compulsary which are follows ");
+							switch(1)
+							{
+								case 1:
+										System.out.println("Q1: IN Present Tense which Model verb used (is/was)");
+										tem = sc.next();
+										if(tem.equals("is"))
+											score += 10;
+								case 2:
+										System.out.println("Q2: IN Future Tense which Model verb used (was/will)");
+										tem = sc.next();
+										if(tem.equals("will"))
+											score += 10;
+								case 3:
+										System.out.println("Q1: Which alphabet is vowel (w/e/t/p/x)");
+										tem = sc.next();
+										if(tem.equals("e"))
+											score += 10;
+
+							}
+							flage=1;
+						}
+						else
+						{
+							System.out.println("You Already Taken THe Exam ,Please choose other one");
+						}
+						break;
+				case 3:
+						if(flagg==0)
+						{
+							System.out.println("Welcom GK Exam");
+							System.out.println();
+							System.out.println("You hav to answer 3 Qutions compulsary which are follows ");
+							switch(1)
+							{
+								case 1:
+										System.out.println("Q1: Capital of India id Delhi (yes/no)");
+										tem = sc.next();
+										if(tem.equals("yes"))
+											score += 10;
+								case 2:
+										System.out.println("Q2: Boiling point of Water (100c/78c)");
+										tem = sc.next();
+										if(tem.equals("100c"))
+											score += 10;
+								case 3:
+										System.out.println("Q1: Scientific Name of water (H2O/HO2)");
+										tem = sc.next();
+										if(tem.equals("H2O"))
+											score += 10;
+
+							}
+							flagg=1;
+						}
+						else
+						{
+							System.out.println("You Already Taken THe Exam ,Please choose other one");
+						}
+						break;
+				default:
+						System.out.println(" You Entered Wrong OPtion , PLease Enter 1,2,3 Only");
+						break;
+
+			}
+			if(flagm==1 && flage==1 && flagg==1)
+			{
+				System.out.println("You done with Exam plese proced for other ");
+				op=5;
+			}
+
+			else if(flage==1 )
+				System.out.println("You done with English plese proced for other ");
+
+			else if(flagg==1 )
+				System.out.println("You done with GK Exam plese proced for other ");
+			else if(flagm==1 )
+			{
+				System.out.println("You done with  with Math Exam plese proced for other");
+			}
+
+
+		}while(op!=5);
+		System.out.println("You done Eligible fro Gate Your Score " + score);
+		if((score/100)>=90)
+			System.out.println("You done Eligible fro Gate Your Score " + score);
+		else if((score/100)>=70 && (score/100)<90)
+			System.out.println("You done Eligible fro Your Score + 10 " + score+10);
+	}
+}
+
+---------------------------------------------------------------------------------------------------------------
+
+import java.util.Scanner;
+class Assignment2
+{
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner(System.in);
+		int size;
+		int temp;
+		String tem;
+		System.out.println("Enter the Number of Employees");
+		size = sc.nextInt();
+		System.out.println("Now you enter the details in a sequence of id, Name,Salary,Designatio ONLY");
+		int []id = new int[size];
+		String []desg = new String[size];
+		double []salary = new double[size];
+		String []name = new String[size];
+
+		for(int i=0;i<size;i++)
+		{
+			System.out.println("Enter the Number of Employee "+(i+1));
+			id[i] = sc.nextInt();
+			sc.nextLine();
+			name[i] = sc.next();
+			salary[i] = sc.nextDouble();
+			sc.nextLine();
+			desg[i] = sc.next();
+		}
+
+
+		for(int i=0;i<size;i++)
+		{
+			if(desg[i].equals("Manager"))
+			{
+				salary[i] = salary[i] + (salary[i]*0.1)+(salary[i]*0.07)-(salary[i]*0.05);
+				System.out.println("As You are Manager you are eligible for extra 15% bonus");
+				System.out.println();
+				System.out.println("ID          : "+id[i]);
+				System.out.println("Name        : "+name[i]);
+				System.out.println("Salary      : "+salary[i]);
+				System.out.println("Designation : "+desg[i]);
+				System.out.println("Bonus 15%   : "+salary[i]*0.15);
+
+			}
+			else if(desg[i].equals("Developer"))
+			{
+				salary[i] = salary[i] + (salary[i]*0.1)+(salary[i]*0.07)-(salary[i]*0.05);
+				System.out.println("As You are Devloper you are eligible for extra 10% bonus");
+				System.out.println();
+				System.out.println("ID          : "+id[i]);
+				System.out.println("Name        : "+name[i]);
+				System.out.println("Salary      : "+salary[i]);
+				System.out.println("Designation : "+desg[i]);
+				System.out.println("Bonus 10%   : "+salary[i]*0.1);
+
+			}
+			else
+			{
+				salary[i] = salary[i] + (salary[i]*0.1)+(salary[i]*0.07)-(salary[i]*0.05);
+				System.out.println();
+				System.out.println("ID          : "+id[i]);
+				System.out.println("Name        : "+name[i]);
+				System.out.println("Salary      : "+salary[i]);
+				System.out.println("Designation : "+desg[i]);
+			}
+
+		}
+	}
+}
+----------------------------------------------------------------------------------------
+
+
+import java.util.Scanner;
+class EmployeeDetails
+{
+	int []id;
+	double []salary;
+	String []name;
+	String []desg;
+	Scanner sc = new Scanner(System.in);
+	int size=0;
+	EmployeeDetails []emp;
+	public EmployeeDetails(int size)
+	{
+		this.size = size;
+		id = new int[size];
+		name = new String[size];
+		salary = new double[size];
+		desg = new String[size];
+
+	}
+
+	public void read()
+	{
+		for( int i=0 ; i<size ; i++)
+		{
+			int temp;
+			System.out.println("Now you enter the details in a sequence of id, Name,Salary,Designatio ONLY");
+			temp = sc.nextInt();
+
+			id[i] = temp;
+			sc.nextLine();
+			name[i] = sc.next();
+			salary[i] = sc.nextDouble();
+			sc.nextLine();
+			desg[i] = sc.next();
+		}
+	}
+	public void salary()
+	{
+		for(int i=0;i<size;i++)
+		{
+			salary[i] = salary[i] + (salary[i]*0.1)+(salary[i]*0.07)-(salary[i]*0.05);
+		}
+	}
+	public void bonus()
+	{
+		for( int i=0;i<size;i++)
+		{
+			if(desg[i].equals("Manager"))
+				salary[i] = salary[i] + salary[i]*0.15;
+			else if(desg[i].equals("Devloper"))
+				salary[i] = salary[i] + salary[i]*0.07;
+			else
+				salary[i] = salary[i];
+		}
+	}
+	public void display()
+	{
+		for(int i=0;i<size;i++)
+		{
+			System.out.println("ID          :"+id[i]);
+			System.out.println("Name        :"+name[i]);
+			System.out.println("Salary      :"+salary[i]);
+			System.out.println("Designation :"+desg[i]);
+		}
+	}
+}
+class EmployeeTest
+{
+
+	public static void main(String args[])
+	{
+		Scanner sc = new Scanner(System.in);
+
+		int size=0;
+		System.out.println("Please Enter the Number of Employees");
+		size = sc.nextInt();
+		EmployeeDetails emp = new EmployeeDetails(size);
+		emp.read();
+		emp.salary();
+		emp.bonus();
+		emp.display();
+
+	}
+}
+------------------------------------------------------------------------------------------------
+
+Day 4 15/Jan/21:
+
+import java.util.*;
+
+class Address
+{
+	String city,state;
+	int pinCode;
+	Scanner sc = new Scanner(System.in);
+
+	public void readAdd()
+	{
+		System.out.println("Enter Your City, State, Pincode");
+		city = sc.next();
+
+		state = sc.next();
+		pinCode = sc.nextInt();
+	}
+	public void disAdd()
+	{
+		System.out.println("Your City : "+city+", State : "+state + ", Pincode : "+pinCode);
+	}
+}
+
+class Employee
+{
+	int id;
+	String name;
+	double salary;
+	Address add = new Address();
+	Scanner sc = new Scanner(System.in);
+
+	public void read()
+	{
+		System.out.println("Enter Your ID, Name, Salary");
+		id = sc.nextInt();
+		name = sc.next();
+		salary = sc.nextFloat();
+	}
+	public void calSalary()
+	{
+		salary= salary + (salary*0.1)+(salary*0.07)-(salary*0.05);
+	}
+	public void display()
+	{
+		System.out.println("Your ID : "+id+", Name : "+name + ", Salary : "+salary);
+	}
+
+}
+
+class Manager extends Employee
+{
+	int numberOfEmp;
+
+	public void readMgr()
+	{
+		System.out.println("Enter Number of Employees Under You Have");
+		numberOfEmp = sc.nextInt();
+		add.readAdd();
+	}
+	public void disMgr()
+	{
+		add.disAdd();
+		System.out.println("Number of Employees Under You Have :"+numberOfEmp);
+	}
+}
+class Programer extends Employee
+{
+	String projectName;
+
+	public void readPgr()
+	{
+		System.out.println("Enter Your Project Name: ");
+		projectName = sc.next();
+		add.readAdd();
+	}
+	public void disPgr()
+	{
+		add.disAdd();
+		System.out.println("Project You Have : "+projectName);
+	}
+}
+
+class EmployeeTestD4A1
+{
+	public static void main(String agrs[])
+	{
+		System.out.println("Manager Details");
+		Manager mg = new Manager();
+		mg.read();
+		mg.readMgr();
+		mg.display();
+		System.out.println("Manager Addrees Details : ");
+		mg.disMgr();
+
+		System.out.println("Programer Details");
+		Programer pg = new Programer();
+		pg.read();
+		pg.readPgr();
+		pg.display();
+		System.out.println("Programer Addrees Details : ");
+		pg.disPgr();
+
+	}
+}
+
