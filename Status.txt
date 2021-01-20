@@ -1,6 +1,11 @@
-Mysql : Assignment 1 and 2 Completed 
-      : Doubted Quetions are Commented with answers
-Java  : Assiignment 1,2,3 completed
-      : Assignment 4,5 Completed
-      : Mini Project Completed
+Mysql Assignments 
+1  -> : Completed , Doubts : Joins(Q5),Functions(Q9)
+2  -> : Completed , Doubts : SubQary(Q13,Q14)
+      
+Java Assignments :
+1 -> Completed
+2 -> Completed
+3 -> Completed
+5 -> Completed
+6 -> Half - Completed (Without Exception)
   	 
