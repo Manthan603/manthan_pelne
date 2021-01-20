@@ -1,5 +1,13 @@
 package com.service;
 
+class MyException extends Exception
+{
+	public MyException(String args)
+	{
+		super(args);
+	}
+}
+
 public class MyBank extends AccountIntialization implements Bank
 {
 	public void withdraw(int accno1, float ammount1)
@@ -8,23 +16,35 @@ public class MyBank extends AccountIntialization implements Bank
 		{
 			for(int i=0;i<10;i++)
 			{
-				if(account[i].getAccno()==accno1)
+				try
 				{
-					if(500.0f< (account[i].getAmount()-ammount1))
+					if(account[i].getAccno()==accno1)
 					{
-						account[i].setAmount(account[i].getAmount()-ammount1);
-						System.out.println();
-						System.out.println("Amount Withdrwan Successfully");
-						System.out.println();
-						break;
+						try
+						{
+							if(500.0f> (account[i].getAmount()-ammount1))
+								throw new MyException("Minimum Balance Exception");
+						
+							account[i].setAmount(account[i].getAmount()-ammount1);
+							System.out.println();
+							System.out.println("Amount Withdrwan Successfully");
+							System.out.println();
+							break;
+						}
+						catch(MyException e)
+						{
+							System.out.println();
+							System.out.println(e.toString());
+							System.out.println();
+							break;
+						}
 					}
-					else
-					{
-						System.out.println();
-						System.out.println("Miimum balance should be 500 maintain, You cannaot withdraw your amount");
-						System.out.println();
-						break;
-					}
+					throw new MyException("Account Mismatch Exception");
+				}
+				catch(MyException e)
+				{
+					System.out.println(e.toString());
+					break;
 				}
 			}
 		}
@@ -42,25 +62,38 @@ public class MyBank extends AccountIntialization implements Bank
 
 			for(int i=0;i<10;i++)
 			{
-				if(account[i].getAccno()==accno1)
+				try
 				{
-					if(ammount1<50000f)
+					
+				
+					if(account[i].getAccno()==accno1)
 					{
-						account[i].setAmount(account[i].getAmount() + ammount1);
-						System.out.println();
-						System.out.println("Amount Deposited");
-						System.out.println();
-						break;
+						if(ammount1<50000f)
+						{
+							account[i].setAmount(account[i].getAmount() + ammount1);
+							System.out.println();
+							System.out.println("Amount Deposited");
+							System.out.println();
+							break;
+						}
+						else
+						{
+							System.out.println();
+							System.out.println("for more than 50,000 amount to be deposited, Pan Card is Compulsary");
+							System.out.println();
+							break;
+						}
 					}
-					else
-					{
-						System.out.println();
-						System.out.println("for more than 50,000 amount to be deposited, Pan Card is Compulsary");
-						System.out.println();
-						break;
-					}
+					throw new MyException("Account Mismatch Exception");
 				}
+				catch(MyException e)
+				{
+					System.out.println(e.toString());
+					break;
+				}
+				
 			}
+				
 		}
 		else
 		{
@@ -76,11 +109,20 @@ public class MyBank extends AccountIntialization implements Bank
 		{
 			for(int i=0;i<10;i++)
 			{
-				if(account[i].getAccno()== accno1 )
+				try
 				{
-					System.out.println();
-					System.out.println("Balaence : "+account[i].getAmount());
-					System.out.println();
+					if(account[i].getAccno()== accno1 )
+					{
+						System.out.println();
+						System.out.println("Balaence : "+account[i].getAmount());
+						System.out.println();
+						break;
+					}
+					throw new MyException("Account Mismatch Exception)");
+				}
+				catch(MyException e)
+				{
+					System.out.println(e.toString());
 					break;
 				}
 			}
@@ -100,28 +142,41 @@ public class MyBank extends AccountIntialization implements Bank
 
 			for(int i=0;i<10;i++)
 			{
-				if(account[i].getAccno()==fromAccNo)
+				try
 				{
-					for(int j=0;j<10;j++)
+					if(account[i].getAccno()==fromAccNo)
 					{
-						if(account[j].getAccno()==toAccNo)
+						for(int j=0;j<10;j++)
 						{
-							if(500.0f < (account[i].getAmount()-amount))
+							if(account[j].getAccno()==toAccNo)
 							{
-								account[i].setAmount(account[i].getAmount()-amount);
-								account[j].setAmount(account[j].getAmount()+amount);
-								break;
-							}
-							else
-							{
-								System.out.println();
-								System.out.println("Sender You Have Not Sufficient Balence ");
-								System.out.println();
+								try
+								{
+									if(500.0f > (account[i].getAmount()-amount))
+										throw new MyException("Minimum Balance Exception");
+								
+									account[i].setAmount(account[i].getAmount()-amount);
+									account[j].setAmount(account[j].getAmount()+amount);
+									break;
+								}
+								catch(MyException e)
+								{
+									System.out.println();
+									System.out.println(e.toString());
+									System.out.println();
+								}
 							}
 						}
+						break;
 					}
+					throw new MyException("Account Mismatch Exception");
+				}
+				catch(MyException e)
+				{
+					System.out.println(e.toString());
 					break;
 				}
+					
 			}
 		}
 		else
