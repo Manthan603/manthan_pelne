@@ -34,7 +34,7 @@ select * from employees where date_format(hire_date,'%m') = '05';
 9) Display details of the employees where commission percentage is null and salary in the range 5000 to 10000 and department is 30.
 select * from employees where (commission_pct=null) and (salary between 5000 and 10000) and (department_id=30);
 
-Join //doubts 
+Join 
 
 1). Display job title, employee ID, number of days between ending date and starting date for all jobs in department 30 from job history.
 select job.job_id,emp.employee_id,job.end_date-job.start_date from job_history job, employees emp where job.department_id=emp.department_id;
@@ -75,9 +75,7 @@ select length(first_name)  from employees where last_name like '__b%';
 select upper(first_name),lower(email) from employees where lower(first_name)=lower(email);
 
 7. Display employees who joined in the current year.
-select *from employees where hire_date=curdate();//4
-SELECT * FROM EMPLOYEES WHERE date_format(HIRE_DATE,'YYYY')='1995';//4
-SELECT * FROM EMPLOYEES WHERE date_format(HIRE_DATE,'%Y')='1995';//right
+SELECT * FROM EMPLOYEES WHERE date_format(HIRE_DATE,'%Y')='1995';
 
 
 8. Display the number of days between system date and 1st January 1995.
