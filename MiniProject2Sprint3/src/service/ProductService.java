@@ -40,9 +40,9 @@ public class ProductService
 		return id;
 	}
 	
-	public ArrayList displayAllProduct() throws SQLException
+	public ArrayList<Product> displayAllProduct() throws SQLException
 	{		
-		ArrayList<Product> p = dao1.displayAllDao();
+		ArrayList<Product> p = (ArrayList<Product>) dao1.displayAllDao().stream().collect(Collectors.toList());
 		return p;
 	}
 	

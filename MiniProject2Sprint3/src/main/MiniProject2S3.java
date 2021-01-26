@@ -37,7 +37,7 @@ public class MiniProject2S3
 			System.out.println("1. Add Product");
 			System.out.println("2. Update the Product Price");
 			System.out.println("3. Delete the Product");
-			System.out.println("4. View All Product");
+			System.out.println("4. View All Product By 20%");
 			System.out.println("5. View All Product By Assending Order of Product Name");
 			System.out.println("6. View All Product By Discending Order of Product Name");
 			System.out.println("7. View All Product By Assending Order of Product Price");
@@ -94,7 +94,7 @@ public class MiniProject2S3
 						break;
 				case 4:
 						System.out.println();
-						ps.displayAllProduct().stream().forEach(p->System.out.println(p));
+						ps.displayAllProduct().stream().forEach(p9->System.out.println("Product Id : "+p9.getPid()+" Product Name : "+p9.getPname()+" Price : "+p9.getPrice()+" Margin Price : "+p9.getPrice()*0.2));
 						System.out.println();
 						break;
 				case 5:
