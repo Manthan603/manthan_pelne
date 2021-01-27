@@ -8,11 +8,11 @@ public class Product implements Serializable
 	public String toString() {
 		return "Product pid=" + pid + ", pname=" + pname + ", price=" + price + "";
 	}
-	private int pid;
+	private String pid;
 	private String pname;
 	private float price;
 	
-	public Product(int pid, String pname, float price) 
+	public Product(String pid, String pname, float price) 
 	{
 		super();
 		this.pid = pid;
@@ -20,11 +20,11 @@ public class Product implements Serializable
 		this.price = price;
 	}
 	
-	public int getPid() 
+	public String getPid() 
 	{
 		return pid;
 	}
-	public void setPid(int pid) 
+	public void setPid(String pid) 
 	{
 		this.pid = pid;
 	}

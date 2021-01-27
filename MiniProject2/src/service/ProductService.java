@@ -7,31 +7,30 @@ import bean.Product;
 
 public class ProductService implements Serializable
 {
-	HashMap map = new HashMap<Integer, Product>();
-	public static int i= 1000;
+	HashMap map = new HashMap<String, Product>();
+	String pid = "pid";
+	String ppid = "pid";
 	
-	public int addProduct(String name,float price)
+	
+	public String addProduct(int a, String name,float price)
 	{
-		Product p = new Product(i,name,price);
-		Integer I = new Integer(i);
-		map.put(I, p);
-		i++;
-		return i-1;
+		pid = ppid + a;
+		Product pd = new Product(pid,name,price);
+		map.put(pid, pd);
+		return pid;
 	}
 	
-	public int updateProduct(int i,float price)
+	public int updateProduct(String pid,float price)
 	{
-		Integer I = new Integer(i);
-		Product p = (Product) map.get(I);
+		Product p = (Product) map.get(pid);
 		p.setPrice(price);
 		
 		return 1;
 	}
 	
-	public int deleteProduct(int i)
+	public int deleteProduct(String pid)
 	{
-		Integer I = new Integer(i);
-		map.remove(I);
+		map.remove(pid);
 		return 1;
 	}
 	
@@ -40,15 +39,10 @@ public class ProductService implements Serializable
 		return map;
 	}
 	
-	public float retrieveProductPrice(int i)
+	public float retrieveProductPrice(String pid)
 	{
-		Integer I = new Integer(i);
-		Product p = (Product) map.get(I);
-		
+		Product p = (Product) map.get(pid);
 		return p.getPrice();
 	}
-
-	
-	
 	
 }
