@@ -24,6 +24,7 @@ public class ProductService
 	public ProductService() throws ClassNotFoundException, SQLException
 	{
 		dao1.initialize();
+		pro = (ArrayList<Product>) dao1.displayAllDao().stream().collect(Collectors.toList());
 	}
 	
 	public String addProduct(Product p) throws SQLException, ClassNotFoundException
@@ -73,7 +74,7 @@ public class ProductService
 	
 	public ArrayList<Product> displayAllProduct() throws SQLException, ClassNotFoundException
 	{		
-		pro = (ArrayList<Product>) dao1.displayAllDao().stream().collect(Collectors.toList());
+		//pro = (ArrayList<Product>) dao1.displayAllDao().stream().collect(Collectors.toList());
 		
 		//Iterator<Product> itr = pro.iterator();
 		
@@ -94,7 +95,7 @@ public class ProductService
 		
         Comparator<Product> sortName = (Product p1, Product p2)->p2.getPname().compareTo(p1.getPname());
 		
-		return (ArrayList<Product>) dao1.displayAllDao().stream().sorted(sortName).collect(Collectors.toList());
+		return (ArrayList<Product>) pro.stream().sorted(sortName).collect(Collectors.toList());
 	}
 	
 	public ArrayList<Product> displayAllProductPs() throws SQLException

@@ -91,18 +91,21 @@ public class ProductServiceTest
 		assertEquals(5, lisObj1.size());
 	}
 
-	@Test
+	//@Test
 	public void testDisplayAllProductNd() throws SQLException, ClassNotFoundException
 	{
 		ArrayList<Product> lisObj1 = ps.displayAllProductNd();
 		//assertEquals(5, lisObj1.size());
 		Product p = lisObj1.get(0);
-		assertEquals("Table", p.getPname());
+		assertEquals(2, lisObj1.size());
 	}
 
-	//@Test
-	public void testDisplayAllProductPs() {
-		fail("Not yet implemented");
+	@Test
+	public void testDisplayAllProductPs() throws SQLException {
+		ArrayList<Product> lisObj1 = ps.displayAllProductPs();
+		//assertEquals(5, lisObj1.size());
+		Product p = lisObj1.get(0);
+		assertEquals(2, lisObj1.size());
 	}
 
 	//@Test
