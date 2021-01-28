@@ -87,7 +87,7 @@ public class BankTestA_M_6
 							flag=false;
 							break;
 				default:
-							System.out.println("Please Enter The Appropriate Option");
+							System.out.println("Please Enter a,b,2,3,4,5,6 Option ONLY");
 
 							break;
 			}

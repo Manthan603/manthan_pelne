@@ -17,7 +17,7 @@ public class MyBank extends AccountIntialization implements Bank
 		{
 			try
 			{
-				for(int i=0;i<10;i++)
+				for(int i=0;i<accCountCopy;i++)
 				{
 					if(account[i].getAccno()==accno1)
 					{
@@ -68,7 +68,7 @@ public class MyBank extends AccountIntialization implements Bank
 
 			try
 			{
-				for(int i=0;i<10;i++)
+				for(int i=0;i<accCountCopy;i++)
 				{
 					
 				
@@ -123,7 +123,7 @@ public class MyBank extends AccountIntialization implements Bank
 		{
 			try
 			{
-				for(int i=0;i<10;i++)
+				for(int i=0;i<accCountCopy;i++)
 				{
 					if(account[i].getAccno()== accno1 )
 					{
@@ -155,16 +155,17 @@ public class MyBank extends AccountIntialization implements Bank
 	public void transfer(int fromAccNo , int toAccNo, float amount)
 	{
 		boolean flag1 = true;
+		boolean flag2 = false;
 		if(accCount!=0)
 		{
 
 			try
 			{
-				for(int i=0;i<10;i++)
+				for(int i=0;i<accCountCopy;i++)
 				{
 					if(account[i].getAccno()==fromAccNo)
 					{
-						for(int j=0;j<10;j++)
+						for(int j=0;j<accCountCopy;j++)
 						{
 							if(account[j].getAccno()==toAccNo)
 							{
@@ -175,6 +176,12 @@ public class MyBank extends AccountIntialization implements Bank
 								
 									account[i].setAmount(account[i].getAmount()-amount);
 									account[j].setAmount(account[j].getAmount()+amount);
+									
+									System.out.println();
+									System.out.println("Amount Transfered Succesfully");
+									System.out.println();
+									
+									flag1 = false;
 									break;
 								}
 								catch(MyException e)
@@ -182,14 +189,18 @@ public class MyBank extends AccountIntialization implements Bank
 									System.out.println();
 									System.out.println(e.toString());
 									System.out.println();
+									flag1 = false;
+									break;
 								}
 							}
+							if((i+1)==accCountCopy)
+								flag2 = true;
 						}
 						break;
 					}
 					flag1 = false;
 				}
-				if(flag1)
+				if(flag1 || flag2)
 					throw new MyException("Account Mismatch Exception");
 			}
 				catch(MyException e)
