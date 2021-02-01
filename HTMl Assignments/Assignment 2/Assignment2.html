@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AddSub Using Aler And Prompt</title>
+    <script>
+        var var2;
+        do{
+
+            alert("1.add  \n2.subtract\n3.Exit");
+            var choice = prompt("Enter the vhoice");
+            switch(eval(choice))
+            {
+                case 1:
+                var num1 = prompt("Enter the First Number");
+                var num2 = prompt("Enter the Second Number");
+                var sum = eval(num1) + eval(num2);
+                alert("Sum = " + sum);
+                break;
+                case 2:
+                var num3 = prompt("Enter the First Number");
+                var num4 = prompt("Enter the Second Number");
+                var dif = eval(num3) - eval(num4);
+                alert("Diiffernce = " + dif);
+                break;
+                case 3:
+                    var2 = confirm("Conform to Exit");
+                default:
+                alert("You Enterd Wrong Option");
+            }
+            
+        }while(!var2);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

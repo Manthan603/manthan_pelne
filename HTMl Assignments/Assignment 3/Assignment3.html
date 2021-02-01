@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Calculator</title>
+    <script>
+        function add()
+        {
+            var num1 = document.getElementById("num1id").value;
+            var num2 = document.getElementById("num2id").value;
+            var sum = eval(num1) + eval(num2);
+            document.getElementById("res").value = sum;
+            return false;
+        }
+        function sub()
+        {
+            var num1 = document.getElementById("num1id").value;
+            var num2 = document.getElementById("num2id").value;
+            var sum = eval(num1) - eval(num2) ;
+            document.getElementById("res").value = sum;
+            return false;
+        }
+    </script>
+</head>
+<body>
+
+    <form method="POST">
+        <label for="">First Number</label>
+        <input type="number" name="num1" id="num1id"><br>
+        <label for="">Second Number</label>
+        <input type="number" name="num2" id="num2id"><br>
+        <label for="">Result</label>
+        <input type="number" name="res" id="res"><br>
+        <input type="submit" value="Addition" onclick=" return add()">
+        <input type="submit" value="Subtraction" onclick="return sub()">
+    </form>
+
+</body>
+</html>
