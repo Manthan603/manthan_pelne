@@ -5,13 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
 
-    <script type = "text/JavaScript" src="validation.js"></script>
+    <script>
+        function valid()
+{
+    var name1 = document.getElementById("fname").value;
+    var ageid = document.getElementById("age").value;
+    var phoonenumber = document.getElementById("phnum").value;
+    var uname1 = document.getElementById("uname").value;
+    var pass = document.getElementById("passs").value;
+    console.log(pass);
+    var mgen = document.getElementById("male").checked;
+    var fgen = document.getElementById("female").checked;
+    var regxpass = /^(?=.[0-9])(?=.[!@#$%^&])[a-zA-Z0-9!@#$%^&]{7,15}$/
+
+    if(name1.length==0)
+    {
+        document.getElementById("e1").innerHTML= "User Name Must Required"
+        document.getElementById("e3").innerHTML= ""
+        document.getElementById("e2").innerHTML= ""
+        document.getElementById("e3").innerHTML= ""
+        document.getElementById("e4").innerHTML= ""
+        document.getElementById("e5").innerHTML= ""
+        document.getElementById("e6").innerHTML= ""
+        return false;
+
+    }
+    else if(fgen==false && mgen==false)
+    {
+        
+        document.getElementById("e2").innerHTML= "User Name Must Required"
+        document.getElementById("e1").innerHTML= "";
+        document.getElementById("e3").innerHTML= "";
+        document.getElementById("e4").innerHTML= "";
+        document.getElementById("e5").innerHTML= "";
+        document.getElementById("e6").innerHTML= "";
+        //document.getElementById("e2").innerHTML= "";
+        //alert("hello")
+        return false;
+    }
+    else if(ageid<21)
+    {
+        document.getElementById("e3").innerHTML= "Aged must be grater than 21";
+        document.getElementById("e1").innerHTML= "";
+        document.getElementById("e2").innerHTML= "";
+        document.getElementById("e4").innerHTML= "";
+        document.getElementById("e5").innerHTML= "";
+        document.getElementById("e6").innerHTML= "";
+        return false;
+    }
+    else if(phoonenumber.length<9)
+    {
+        document.getElementById("e4").innerHTML= "Right Phone NUmber Must Required";
+        document.getElementById("e1").innerHTML= "";
+        document.getElementById("e3").innerHTML= "";
+        document.getElementById("e2").innerHTML= "";
+        document.getElementById("e5").innerHTML= "";
+        document.getElementById("e6").innerHTML= "";
+        return false;
+    }
+    else if(uname1.length==0)
+    {
+        document.getElementById("e5").innerHTML= "User Name Must Required";
+        document.getElementById("e1").innerHTML= "";
+        document.getElementById("e3").innerHTML= "";
+        document.getElementById("e4").innerHTML= "";
+        document.getElementById("e2").innerHTML= "";
+        document.getElementById("e6").innerHTML= "";
+        return false;
+    }
+    else if(pass.length==0)
+    {
+        document.getElementById("e6").innerHTML= "Password Must Required";
+        document.getElementById("e1").innerHTML= "";
+        document.getElementById("e3").innerHTML= "";
+        document.getElementById("e4").innerHTML= "";
+        document.getElementById("e5").innerHTML= "";
+        document.getElementById("e2").innerHTML= "";
+        return false;
+    }
+
+    else if(pass.length!=0)
+    {
+        
+        
+        if (pass.match(regxpass)) {
+            console.log("ok");
+            return true;
+        }
+        else{
+            console.log(" not ok");
+            document.getElementById("e6").innerHTML= "Password Must Contain Number,Special Function As wel Char Required";
+            document.getElementById("e1").innerHTML= "";
+            document.getElementById("e3").innerHTML= "";
+            document.getElementById("e4").innerHTML= "";
+            document.getElementById("e5").innerHTML= "";
+            document.getElementById("e2").innerHTML= "";
+            return false;
+        }
+    }
+
+    else
+    {
+        return true;
+    }
+        
+    
+}
+    </script>
 
 </head>
 <body>
 
     
-        <form onsubmit="return valid()">
+        <form action="login.html" onsubmit="return valid()">
 
             <label for="">First Name</label>
             <input type="text" name="fname" id="fname">
@@ -31,11 +137,7 @@
             <label for="">Password</label>
             <input type="password" name="pass" id="passs">
             <span id = "e6"></span><br>
-            <!--<label for="">Gender</label>
-            <input type="radio" name="gen" id="male">Male 
-            <input type="radio" name="gen" id="female">Female 
-            <span id = "e2"></span><br>
-            >-->
+           
             <input type="submit" value="Submit"><br>
         
             <a href="login.html">Login Page</a>
